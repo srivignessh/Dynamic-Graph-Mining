@@ -64,3 +64,16 @@ def possible_targets(graph, start, edge):
     dijkstra_output = dijkstra.single_source_shortest_paths(graph, start)
     return set(v for v in graph.vertices
                if dijkstra_output.path_to_destination_contains_edge(v, edge))
+
+def find_median(graph, vertices):
+    '''
+    Compute as output a vertex in the input graph which minimizes the sum of distances
+    to the input set of vertices
+    '''
+    dijkstra_outputs = [dijkstra.single_source_shortest_paths(graph, v)
+                        for v in graph.vertices]
+    # for x in dijkstra_outputs:
+    #     print(x.start, x.distance_from_start)
+        
+    return min(dijkstra_outputs, key=lambda x: x.sum_of_distances(vertices)).start
+
