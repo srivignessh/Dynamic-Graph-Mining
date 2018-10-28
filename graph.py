@@ -77,3 +77,49 @@ def find_median(graph, vertices):
         
     return min(dijkstra_outputs, key=lambda x: x.sum_of_distances(vertices)).start
 
+QueryResult = namedtuple('QueryResult', ('found_target', 'feedback_edge'))
+
+
+def binary_search(graph, query):
+    '''
+    Find a target node in a graph, with queries of the form "Is x the target?"
+    and responses either "You found the target!" or "Here is an edge on a shortest
+    path to the target."
+    '''
+    candidate_nodes = set(x for x in graph.vertices)  # copy
+
+    while len(candidate_nodes) > 1:
+        median = find_median(graph, candidate_nodes)
+        query_result = query(median)
+
+        if query_result.found_target:
+            return median
+        else:
+            edge = query_result.feedback_edge
+            legal_targets = possible_targets(graph, median, edge)
+            candidate_nodes = candidate_nodes.intersection(legal_targets)
+
+    return candidate_nodes.pop()
+
+
+def simple_query(v):
+        ans = raw_input("is '%s' the target? [y/N] " % v)
+        if ans and ans.lower()[0] == 'y':
+            return QueryResult(True, None)
+        else:
+            print("Please input a vertex on the shortest path between"
+                  " '%s' and the target. The graph is: " % v)
+            for w in G.incident_edges:
+                print("%s: %s" % (w, G.incident_edges[w]))
+
+            target = None
+            while target not in G.vertices:
+                target = input("Input neighboring vertex of '%s': " % v)
+
+        return QueryResult(
+            False,
+            G.edge(v, target)
+        )
+
+output = binary_search(G, simple_query)
+print("Found target: %s" % output)
