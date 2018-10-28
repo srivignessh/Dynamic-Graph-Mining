@@ -1,8 +1,11 @@
 from collections import defaultdict
 from collections import namedtuple
  
+import dijkstra
+
 Edge = namedtuple('Edge', ('source', 'target', 'weight'))
- 
+
+
 class Graph:
     def __init__(self, vertices, edges=tuple()):
         self.vertices = vertices
@@ -51,3 +54,13 @@ print(G.incident_edges)
 
 print("Edge b -> c")
 print(G.edge('b','c'))
+
+def possible_targets(graph, start, edge):
+    '''
+    Given an undirected graph G = (V,E), an input vertex v in V, and an edge e
+    incident to v, compute the set of nodes w such that e is on a shortest path from
+    v to w.
+    '''
+    dijkstra_output = dijkstra.single_source_shortest_paths(graph, start)
+    return set(v for v in graph.vertices
+               if dijkstra_output.path_to_destination_contains_edge(v, edge))
