@@ -72,8 +72,8 @@ def find_median(graph, vertices):
     '''
     dijkstra_outputs = [dijkstra.single_source_shortest_paths(graph, v)
                         for v in graph.vertices]
-    # for x in dijkstra_outputs:
-    #     print(x.start, x.distance_from_start)
+    for x in dijkstra_outputs:
+        print(x.start, x.distance_from_start)
         
     return min(dijkstra_outputs, key=lambda x: x.sum_of_distances(vertices)).start
 
@@ -114,7 +114,7 @@ def simple_query(v):
 
             target = None
             while target not in G.vertices:
-                target = input("Input neighboring vertex of '%s': " % v)
+                target = raw_input("Input neighboring vertex of '%s': " % v)
 
         return QueryResult(
             False,
