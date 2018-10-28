@@ -1,4 +1,3 @@
-import math
 import heapq
 
 
@@ -12,7 +11,7 @@ class DijkstraOutput:
         self.graph = graph
         
         # the smallest distance from the start to the destination v
-        self.distance_from_start = {v: math.inf for v in graph.vertices}
+        self.distance_from_start = {v: float('inf') for v in graph.vertices}
         self.distance_from_start[start] = 0
 
         # a list of predecessor edges for each destination
