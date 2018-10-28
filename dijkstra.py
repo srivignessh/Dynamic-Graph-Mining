@@ -38,3 +38,25 @@ class DijkstraOutput:
     def sum_of_distances(self, subset=None):
         subset = subset or self.graph.vertices
         return sum(self.distance_from_start[x] for x in subset)   
+
+def single_source_shortest_paths(graph, start):
+    '''
+    Compute the shortest paths and distances from the start vertex to all
+    possible destination vertices. Return an instance of DijkstraOutput.
+    '''
+    output = DijkstraOutput(graph, start)
+    visit_queue = [(0, start)]
+
+    while len(visit_queue) > 0:
+        priority, current = heapq.heappop(visit_queue)
+        
+        for incident_edge in graph.incident_edges[current]:
+            v = incident_edge.target
+            weight = incident_edge.weight
+            distance_from_current = output.distance_from_start[current] + weight
+
+            if distance_from_current <= output.distance_from_start[v]:
+                output.found_shorter_path(v, incident_edge, distance_from_current)
+                heapq.heappush(visit_queue, (distance_from_current, v))
+
+    return output
