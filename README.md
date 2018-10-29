@@ -1,7 +1,7 @@
 # Binary Search on Graphs
 
 Create a graph class which accepts edges
-Given list of edges create optimal relationship between nodes
+and implement binary search on graphs
 
 Its code is refered from the article on Binary Search on Graphs by Jeremy Kun
 
